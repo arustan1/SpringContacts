@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert New Contact</title>
+<script type="text/javascript">
+function validate() {
+	// Validate that name and phone are entered
+   if( document.input.name.value == "" ) {
+      alert( "Please provide a name!" );
+      document.input.name.focus() ;
+      return false;
+   }
+
+   if(document.input.phone.value == "") {
+     alert("Please enter a phone number in the following format: ###-###-####");
+     document.input.phone.focus();
+     return false;
+   }
+   // Regular expression to match phone format
+   var re = /\d\d\d\-\d\d\d\-\d\d\d\d/;
+
+   // Validate that the phone matches the regular expression
+   if(!re.test(document.input.phone.value)) {
+     alert("Please make sure the phone number is in the following format: ###-###-####");
+     document.input.phone.focus();
+     return false;
+   }
+   
+   // Validate that the relationship is entered
+   if( document.input.relationship.value == "" ) {
+		 alert( "Please provide a relationship!" );
+		 document.input.relationship.focus();
+		 return false;
+		}
+   // validation was successful
+   return true;
+ }
+
+</script>
+</head>
+<body>
+<form th:object="${newContact}" th:action="@{/update/{id}(id=${newContact.id})}" method=POST name="input" onsubmit = "return(validate());">
+Name: <input name="name" size="20" th:field="*{name}"><br />
+
+Relationship: <input name="relationship" size="20" th:field="*{relationship}"><br />
+
+Phone Number: <input name="phone" size="20" th:field="*{phone}"><br />
+
+Street: <input name="address.street" size="20" th:field="*{address.street}"><br />
+
+City: <input name="address.city" size="20" th:field="*{address.city}"><br />
+
+State: <input name="address.state" size="20" th:field="*{address.state}"><br />
+
+<input name="Submit" type="submit" value="submit" />
+</form>
+<a href="../viewAll">View All Contacts</a>
+</body>
+</html>
